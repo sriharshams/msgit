@@ -22,6 +22,7 @@ form= """<!DOCTYPE html>
 </html>
 
 """
+# Escapes special char for html
 def escape_html(s):
     return cgi.escape(s, quote = True)
 
@@ -35,11 +36,13 @@ def encrypt(s):
 class MainPage(webapp2.RequestHandler):
     def write_form(self, text=""):
         self.response.out.write(form % {"text" : escape_html(text)})
-        
+    
+    #GET process    
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
         self.write_form()
 
+    #POST process
     def post(self):
         text = self.request.get('text')
         text = encrypt(text)
